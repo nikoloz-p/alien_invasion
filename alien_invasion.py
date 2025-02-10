@@ -2,7 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
-
+from sky import StarrySky
 
 class AlienInvasion:
     """general class to manage game assests and behavior"""
@@ -16,22 +16,26 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
-
-        """set bg color"""
-        self.bg_color = (230, 230, 230)
+        self.starry_sky = StarrySky(self.screen, self.settings.screen_width, self.settings.screen_height)
 
     def run_game(self):
         """run game"""
         while True:
             "keyboard/mouse events"
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
+            self._update_screen()
 
-            self.screen.fill(self.settings.bg_color)
-            self.ship.blitme()
-            
-            pygame.display.flip()
+    def _check_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
+        self.starry_sky.draw()
+        self.ship.blitme()
+
+        pygame.display.flip()
 
 if __name__ == "__main__":
 
